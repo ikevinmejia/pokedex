@@ -140,7 +140,7 @@ function createPokemon(pokemon) {
     // al elemento pokemon container se le agrega el contenedor flipcard
     pokemonContainer.append(flipCard);
 
-    searchPokemon(pokemon.name);
+    searchPokemon(pokemon);
 }
 
 // creación de la barra de progreso e la flip card o stats
@@ -199,26 +199,36 @@ fetchPokemons(offset, limit)
 // 3. Guardarlo en la variable "pokemonFound"
 // 4. Para posteriormente añadirlo al DOM solo mostrando el nombre en una card. (Aun no doy estilos.)
 
-function searchPokemon(pokemonName) {
+/* function searchPokemon(pokemonName) {
     const input =  document.querySelector('.inputSearch').value.toString();
     const button = document.querySelector('.searchButton');
     const pokemonFoundContainer = document.createElement('div');
     const newPokemon = document.createElement('p');
 
     const accion = () => {
-        const pokemonFound = pokemonName.find(input);
+        const pokemonFound = pokemonName.find(function (params) {
+            return params.name === input
+        });
         pokemonFoundContainer.append(newPokemon);
 
         newPokemon.innerText = pokemonFound;
 
     }
     button.addEventListener("click", accion);
+} */
+
+function searchPokemon() {
+	const input = document.querySelector('.inputSearch')
+	const button = document.querySelector('.searchButton')
+
+	const accion = () => {
+		fetchPokemon(input.value)
+		// console.log(input.value)
+		// const pokemonFound = pokemonName.find(input)
+		// const pokemonFoundContainer = document.createElement('div')
+
+		// pokemonFoundContainer.innerText = pokemonFound
+	}
+	button.addEventListener('click', accion)
 }
-
-
-
-
-
-
-
 
