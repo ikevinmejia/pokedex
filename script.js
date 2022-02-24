@@ -1,13 +1,4 @@
-// 1.  Seleccionar los elementos del html
-
-/* const pokeCard = document.querySelector('[data-poke-card]');
-const pokeName = document.querySelector('[data-poke-name]');
-const pokeImg = document.querySelector('[data-poke-img]');
-const pokeImgContainer = document.querySelector('[data-poke-img-container]');
-const pokeID = document.querySelector('[data-poke-id');
-const pokeTypes = document.querySelector('[data-poke-types]');
-const pokeStats = document.querySelector('[data-poke-stats]'); */
-
+// diccionario del color de cada tipo de pokemon
 const typesColors = {
     electric: '#FFEA70',
     normal: '#B09398',
@@ -28,16 +19,19 @@ const typesColors = {
     default: '#2A1A1F',
 };
 
-
-// 2. Creando la functión de buscar pokemon
+// Seleccionando elementos HTML
 
 const pokemonContainer = document.querySelector('.pokemon-container');
 const spinner = document.querySelector('#spinner');
 const previous = document.querySelector('#previous');
 const next = document.querySelector('#next');
 
+// valores de inicio y limite para validación del número de tarjetas que se muestran en el DOM
+
 let offset = 1;
 let limit = 8;
+
+// Creando eventos para adelantar y retroceder
 
 previous.addEventListener('click', () => {
     if (offset != 1) {
@@ -53,15 +47,19 @@ next.addEventListener('click', () =>{
     fetchPokemons(offset, limit);
 });
 
+// Conexión al API
+
 function fetchPokemon(id) {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-        .then(response => response.json())
-        .then(data => {
-            createPokemon(data);
-            // console.log(data);
-            spinner.style.display = "none";
-        });
+    .then(response => response.json())
+    .then(data => {
+        createPokemon(data);
+        // console.log(data);
+        spinner.style.display = "none";
+    });
 }
+
+// función para mostrar 9 tarjetas en pantalla
 
 function fetchPokemons(offset, limit) {
     spinner.style.display = "block";
@@ -70,9 +68,14 @@ function fetchPokemons(offset, limit) {
     }
 }
 
+//  Creando la functión de crear pokemon
+
 function createPokemon(pokemon) {
+    // creación de la flipcard
     const flipCard = document.createElement('div');
     flipCard.classList.add('flip-card');
+
+    // creación del card container (card y flipcard)
 
     const cardContainer = document.createElement('div');
     cardContainer.classList.add('card-container');
@@ -111,6 +114,7 @@ function createPokemon(pokemon) {
 
     /* types(pokemon.types); */
 
+    // Con el siguiente bloque de codigo se generan los tipos y se colorean según su indicación
     const typesContainer = document.createElement('div');
     typesContainer.classList.add('types-container');
 
@@ -138,6 +142,8 @@ function createPokemon(pokemon) {
 
     searchPokemon(pokemon.name);
 }
+
+// creación de la barra de progreso e la flip card o stats
 
 function progressBars(stats) {
     const statsContainer = document.createElement("div");
@@ -175,24 +181,35 @@ function progressBars(stats) {
   return statsContainer;
 }
 
+// función para quitar de pantalla las anteriores cards
+
 function removeChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }
 
+// invocación de la función para mostrar 9 cards
+
 fetchPokemons(offset, limit)
+
+// ------ función del problema -------
+// 1. Se supone que debe recibir el input
+// 2. Este se pasa como argumento al array de objetos para buscar el nombre del pokemon ingresado
+// 3. Guardarlo en la variable "pokemonFound"
+// 4. Para posteriormente añadirlo al DOM solo mostrando el nombre en una card. (Aun no doy estilos.)
 
 function searchPokemon(pokemonName) {
     const input =  document.querySelector('.inputSearch').value.toString();
     const button = document.querySelector('.searchButton');
+    const pokemonFoundContainer = document.createElement('div');
+    const newPokemon = document.createElement('p');
 
     const accion = () => {
         const pokemonFound = pokemonName.find(input);
+        pokemonFoundContainer.append(newPokemon);
 
-        const pokemonFoundContainer = document.createElement('div');
-
-        pokemonFoundContainer.innerText = pokemonFound;
+        newPokemon.innerText = pokemonFound;
 
     }
     button.addEventListener("click", accion);
